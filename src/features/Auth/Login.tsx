@@ -8,11 +8,12 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from '@mui/material'
 import {Simulate} from "react-dom/test-utils";
 import error = Simulate.error;
+import {selectIsLoggedIn} from "features/Auth/auth-selectors";
 
 export const Login = () => {
     const dispatch = useAppDispatch()
 
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(selectIsLoggedIn);
 
     const formik = useFormik({
         validate: (values) => {

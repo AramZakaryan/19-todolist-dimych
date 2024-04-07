@@ -20,7 +20,7 @@ import {
 } from '@mui/material';
 import {Menu} from '@mui/icons-material'
 import {selectIsInitialized, selectStatus} from "./app-selectors";
-import {selectIsLoggedIn} from "features/Auth/login-selectors";
+import {selectIsLoggedIn} from "features/Auth/auth-selectors";
 
 type PropsType = {
     demo?: boolean
