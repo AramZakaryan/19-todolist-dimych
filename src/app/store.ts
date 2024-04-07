@@ -3,14 +3,14 @@ import {todolistsReducer} from '../features/TodolistsList/todolists-reducer';
 import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {thunk as thunkMiddleware, ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {appReducer} from './app-reducer'
-import {authReducer} from '../features/Login/auth-reducer'
+import {loginReducer} from 'features/Auth/login-reducer'
 import {configureStore, UnknownAction} from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({
 	tasks: tasksReducer,
 	todolists: todolistsReducer,
 	app: appReducer,
-	auth: authReducer
+	auth: loginReducer
 })
 
 // ❗старая запись, с новыми версиями не работает

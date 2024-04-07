@@ -1,6 +1,6 @@
 import {authAPI} from '../api/todolists-api'
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {setIsLoggedInAC} from "../features/Login/auth-reducer";
+import {setIsLoggedInAC} from "features/Auth/login-reducer";
 
 export const initialState = {
     status: 'idle' as RequestStatusType,
