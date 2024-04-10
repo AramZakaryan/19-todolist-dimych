@@ -1,6 +1,5 @@
-import {authAPI} from '../api/todolists-api'
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {setIsLoggedInAC} from "features/Auth/login-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {initializeAppTC} from "app/app-actions";
 
 export const initialState = {
     status: 'idle' as RequestStatusType,
@@ -47,60 +46,8 @@ export const {
 } = slice.actions
 
 
-//////////// THUNKS
-export const initializeAppTC = createAsyncThunk("app/initializeApp",
-    async (_, {dispatch}) => {
-        const res = await authAPI.me();
-        if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC({isLoggedIn: true}));
-        }
-        // return
-        // dispatch(setAppInitializedAC({value: true}));
-    })
-// export const _initializeAppTC = () => (dispatch: Dispatch) => {
-//     authAPI.me().then(res => {
-//         if (res.data.resultCode === 0) {
-//             dispatch(setIsLoggedInAC({isLoggedIn: true}));
-//         } else {
-//
-//         }
-//         dispatch(setAppInitializedAC({value: true}));
-//     })
-// }
 
-
-// export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-//     switch (action.type) {
-//         case 'APP/SET-ERROR':
-//             return {...state, error: action.error}
-//         case 'APP/SET-IS-INITIALIED':
-//             return {...state, isInitialized: action.value}
-//         case 'APP/SET-STATUS':
-//             return {...state, status: action.status}
-//         default:
-//             return {...state}
-//     }
-
-
-// }
-// export type InitialStateType = {
-//     // происходит ли сейчас взаимодействие с сервером
-//     status: RequestStatusType
-//     // если ошибка какая-то глобальная произойдёт - мы запишем текст ошибки сюда
-//     error: string | null
-//     // true когда приложение проинициализировалось (проверили юзера, настройки получили и т.д.)
-//     isInitialized: boolean
-
-// }
-// export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
-// export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
-
-// export const setAppInitializedAC = (value: boolean) => ({type: 'APP/SET-IS-INITIALIED', value} as const)
-
-// type ActionsType =
-//     | SetAppErrorActionType
-//     | SetAppStatusActionType
-//     | ReturnType<typeof setAppInitializedAC>
+export const appAsyncActions = {initializeAppTC}
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 

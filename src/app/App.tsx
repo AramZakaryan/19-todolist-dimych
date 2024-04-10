@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect} from 'react'
 import './App.css'
-import {TodolistsList} from '../features/TodolistsList/TodolistsList'
-import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
+import {TodolistsList} from 'features/TodolistsList'
+import {ErrorSnackbar} from 'components/ErrorSnackbar/ErrorSnackbar'
 import {useDispatch, useSelector} from 'react-redux'
-import {AppRootStateType} from './store'
-import {initializeAppTC, RequestStatusType} from './app-reducer'
+import {AppRootStateType, useAction} from './store'
+import {RequestStatusType} from './app-reducer'
+import {appActions} from "app"
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import {Login} from 'features/Auth/Login'
-import {logoutTC} from 'features/Auth/login-reducer'
+import {authActions, Login} from 'features/Auth'
 import {
     AppBar,
     Button,
@@ -19,8 +19,8 @@ import {
     Typography
 } from '@mui/material';
 import {Menu} from '@mui/icons-material'
-import {selectIsInitialized, selectStatus} from "./app-selectors";
-import {selectIsLoggedIn} from "features/Auth/auth-selectors";
+import {appSelectors} from "app"
+import {authSelectors} from "features/Auth"
 
 type PropsType = {
     demo?: boolean
@@ -28,17 +28,23 @@ type PropsType = {
 
 
 function App({demo = false}: PropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>(selectStatus)
-    const isInitialized = useSelector<AppRootStateType, boolean>(selectIsInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(selectIsLoggedIn)
+    const status = useSelector<AppRootStateType, RequestStatusType>(appSelectors.selectStatus)
+    const isInitialized = useSelector<AppRootStateType, boolean>(appSelectors.selectIsInitialized)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(authSelectors.selectIsLoggedIn)
     const dispatch = useDispatch<any>()
 
+    const {
+        /** ZA: initializeApp BoundAction based on initializeAppTC */
+        initializeAppTC: initializeAppBoundAction
+    } = useAction(appActions)
+
     useEffect(() => {
-        dispatch(initializeAppTC())
+        initializeAppBoundAction()
+        // dispatch(appAsyncActions.initializeAppTC())
     }, [])
 
     const logoutHandler = useCallback(() => {
-        dispatch(logoutTC())
+        dispatch(authActions.logoutTC())
     }, [])
 
     if (!isInitialized) {

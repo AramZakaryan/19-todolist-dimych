@@ -1,14 +1,11 @@
 import React from 'react'
-import { useFormik } from 'formik'
-import { useSelector } from 'react-redux'
-import { loginTC } from 'features/Auth/login-reducer'
-import { AppRootStateType } from '../../app/store'
-import { Navigate } from 'react-router-dom'
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField } from '@mui/material'
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
-import {selectIsLoggedIn} from "features/Auth/auth-selectors";
+import {useFormik} from 'formik'
+import {useSelector} from 'react-redux'
+import {authActions, selectIsLoggedIn} from 'features/Auth'
+import {AppRootStateType} from 'app/store'
+import {Navigate} from 'react-router-dom'
+import {useAppDispatch} from 'hooks/useAppDispatch';
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@mui/material'
 
 export const Login = () => {
     const dispatch = useAppDispatch()
@@ -35,10 +32,10 @@ export const Login = () => {
             rememberMe: false
         },
         onSubmit: async (values, formikHelpers) => {
-            const res = await dispatch(loginTC(values))
-            if(loginTC.rejected.match(res)){
+            const res = await dispatch(authActions.loginTC(values))
+            if (authActions.loginTC.rejected.match(res)) {
                 console.log(res)
-                if(res.payload?.fieldsErrors?.length){
+                if (res.payload?.fieldsErrors?.length) {
                     const error = res.payload?.fieldsErrors[0]
                     formikHelpers.setFieldError(error?.field, error.error)
                 }
@@ -47,7 +44,7 @@ export const Login = () => {
     })
 
     if (isLoggedIn) {
-        return <Navigate to={"/"} />
+        return <Navigate to={"/"}/>
     }
 
 
